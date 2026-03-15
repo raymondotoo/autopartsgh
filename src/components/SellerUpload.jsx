@@ -59,7 +59,7 @@ function SellerUpload({ cars, onAddPart, token, apiEnabled }) {
 
     try {
       const dataUrls = await Promise.all(files.map(readFileAsDataUrl));
-      setImages(dataUrls);
+      setImages(prev => [...prev, ...dataUrls]);
     } catch {
       setImages([]);
     }
