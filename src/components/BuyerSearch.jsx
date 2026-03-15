@@ -8,6 +8,7 @@ function BuyerSearch({ cars, parts, onBuy, paymentsEnabled }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('');
   const [condition, setCondition] = useState('');
+    const [selectedPart, setSelectedPart] = useState(null);
 
   const makeOptions = useMemo(() => cars.map(car => car.make), [cars]);
   const modelOptions = useMemo(() => {
@@ -149,11 +150,29 @@ function BuyerSearch({ cars, parts, onBuy, paymentsEnabled }) {
             </div>
           ) : (
             filteredParts.map(part => (
+                <div key={part.id} style={{ cursor: 'pointer' }} onClick={() => setSelectedPart(part)}>
               <PartCard key={part.id} part={part} onBuy={onBuy} paymentsEnabled={paymentsEnabled} />
             ))
           )}
         </div>
       </div>
+          {selectedPart && (
+            <div className="part-images-modal" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }} onClick={() => setSelectedPart(null)}>
+              <div style={{ background: '#fff', borderRadius: 16, padding: 24, maxWidth: 600, maxHeight: '80vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
+                <h3>{selectedPart.name} - Images</h3>
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                  {selectedPart.images && selectedPart.images.length > 0 ? (
+                    selectedPart.images.map((img, idx) => (
+                      <img key={idx} src={img} alt={selectedPart.name} style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 8, border: '1px solid #eee' }} />
+                    ))
+                  ) : (
+                    <p>No images available.</p>
+                  )}
+                </div>
+                <button className="primary-button" style={{ marginTop: 16 }} onClick={() => setSelectedPart(null)}>Close</button>
+              </div>
+            </div>
+          )}
     </div>
   );
 }
