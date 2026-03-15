@@ -25,6 +25,7 @@ function readFileAsDataUrl(file) {
 }
 
 function SellerUpload({ cars, onAddPart, token, apiEnabled }) {
+  const maxImages = 3;
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
   const [year, setYear] = useState('');
@@ -50,18 +51,29 @@ function SellerUpload({ cars, onAddPart, token, apiEnabled }) {
   }, [cars, make, model]);
 
   const handleImagesChange = async e => {
-    const files = Array.from(e.target.files || []).slice(0, 3);
-    setImageFiles(files);
+    const picked = Array.from(e.target.files || []);
+    if (picked.length === 0) {
+      return;
+    }
+
+    const remaining = Math.max(0, maxImages - imageFiles.length);
+    const files = picked.slice(0, remaining);
     if (files.length === 0) {
-      setImages([]);
+      setMessage(`You can upload up to ${maxImages} photos.`);
       return;
     }
 
     try {
       const dataUrls = await Promise.all(files.map(readFileAsDataUrl));
-      setImages(prev => [...prev, ...dataUrls]);
+      setImages(prev => [...prev, ...dataUrls].slice(0, maxImages));
+      setImageFiles(prev => [...prev, ...files].slice(0, maxImages));
+      setMessage('');
     } catch {
       setImages([]);
+      setImageFiles([]);
+      setMessage('Could not read selected images.');
+    } finally {
+      e.target.value = '';
     }
   };
 
@@ -255,6 +267,9 @@ function SellerUpload({ cars, onAddPart, token, apiEnabled }) {
             multiple
             onChange={handleImagesChange}
           />
+          {images.length ? (
+            <small className="muted">{images.length} of {maxImages} selected</small>
+          ) : null}
           {images.length ? (
             <div className="image-previews">
               {images.map((src, index) => (

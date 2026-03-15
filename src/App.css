@@ -1,7 +1,7 @@
 .page {
   width: min(1200px, 92vw);
   margin: 0 auto;
-  padding: 32px 0 48px;
+  padding: 28px 0 56px;
 }
 
 .site-header {
@@ -9,12 +9,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 18px 0 36px;
+  padding: 18px 0 28px;
   position: sticky;
   top: 0;
-  background: linear-gradient(180deg, rgba(245, 239, 230, 0.96), rgba(245, 239, 230, 0.7));
+  background: linear-gradient(180deg, rgba(248, 249, 255, 0.95), rgba(248, 249, 255, 0.75));
   backdrop-filter: blur(8px);
   z-index: 10;
+  border-bottom: 1px solid rgba(225, 229, 238, 0.6);
 }
 
 .brand {
@@ -51,14 +52,18 @@
   font-weight: 500;
 }
 
-.site-nav a {
-  padding: 6px 10px;
+.view-toggle {
+  display: inline-flex;
   border-radius: 999px;
-  transition: background 0.2s ease;
+  background: var(--surface-strong);
+  padding: 4px;
+  gap: 6px;
 }
 
-.site-nav a:hover {
-  background: var(--accent-soft);
+.view-toggle .toggle {
+  padding: 8px 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .primary-button,
@@ -67,7 +72,7 @@
 .tiny-button {
   border: none;
   border-radius: 999px;
-  padding: 10px 20px;
+  padding: 11px 20px;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
@@ -79,17 +84,19 @@
 .primary-button {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 12px 30px rgba(212, 106, 60, 0.25);
+  box-shadow: 0 16px 36px rgba(255, 122, 0, 0.25);
 }
 
 .primary-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 20px 44px rgba(255, 122, 0, 0.3);
 }
 
 .secondary-button {
-  background: var(--surface-strong);
+  background: #fff;
   color: var(--ink);
   border: 1px solid var(--stroke);
+  box-shadow: 0 10px 24px rgba(16, 19, 25, 0.08);
 }
 
 .ghost-button {
@@ -110,7 +117,7 @@
   display: grid;
   gap: 32px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  padding: 32px 0 48px;
+  padding: 26px 0 48px;
   align-items: center;
 }
 
@@ -142,6 +149,11 @@
 
 .highlight-title {
   font-weight: 600;
+}
+
+.highlight-body {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .hero-panel {
@@ -270,7 +282,7 @@
   position: absolute;
   left: 12px;
   top: 12px;
-  background: rgba(29, 107, 89, 0.9);
+  background: rgba(15, 118, 110, 0.9);
   color: #fff;
   padding: 4px 10px;
   border-radius: 999px;

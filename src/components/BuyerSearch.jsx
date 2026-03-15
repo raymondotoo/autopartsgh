@@ -22,15 +22,12 @@ function BuyerSearch({ cars, parts, onBuy, paymentsEnabled }) {
     );
   }, [cars, selectedMake, selectedModel]);
 
-  const ready = Boolean(selectedMake && selectedModel && selectedYear);
-
   const filteredParts = useMemo(() => {
-    if (!ready) return [];
     return parts.filter(part => {
-      const matchesCar =
-        part.car.make === selectedMake &&
-        part.car.model === selectedModel &&
-        String(part.car.year) === String(selectedYear);
+      const matchesMake = selectedMake ? part.car.make === selectedMake : true;
+      const matchesModel = selectedModel ? part.car.model === selectedModel : true;
+      const matchesYear = selectedYear ? String(part.car.year) === String(selectedYear) : true;
+      const matchesCar = matchesMake && matchesModel && matchesYear;
 
       const matchesQuery = query
         ? `${part.name} ${part.description}`.toLowerCase().includes(query.toLowerCase())
@@ -40,7 +37,7 @@ function BuyerSearch({ cars, parts, onBuy, paymentsEnabled }) {
 
       return matchesCar && matchesQuery && matchesCategory && matchesCondition;
     });
-  }, [parts, selectedMake, selectedModel, selectedYear, query, category, condition, ready]);
+  }, [parts, selectedMake, selectedModel, selectedYear, query, category, condition]);
 
   const categories = useMemo(() => {
     const unique = new Set(parts.map(part => part.category).filter(Boolean));
@@ -135,16 +132,12 @@ function BuyerSearch({ cars, parts, onBuy, paymentsEnabled }) {
       </div>
 
       <div className="results">
-        <div className="results-header">
-          <h3>Matching parts</h3>
-          <span>{ready ? `${filteredParts.length} found` : 'Select car details to start'}</span>
-        </div>
-        <div className="parts-grid">
-          {!ready ? (
-            <div className="empty-state">
-              <p>Select your car details to see compatible listings.</p>
-            </div>
-          ) : filteredParts.length === 0 ? (
+      <div className="results-header">
+        <h3>Matching parts</h3>
+        <span>{`${filteredParts.length} found`}</span>
+      </div>
+      <div className="parts-grid">
+          {filteredParts.length === 0 ? (
             <div className="empty-state">
               <p>No parts yet. Try another car or broaden your search.</p>
             </div>

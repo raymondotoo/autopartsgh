@@ -14,6 +14,8 @@ function App() {
   const [parts, setParts] = useState([]);
   const [auth, setAuth] = useState(() => getAuth());
   const [selectedPart, setSelectedPart] = useState(null);
+  const [activeView, setActiveView] = useState('buyer');
+  const isBuyer = activeView === 'buyer';
 
   const apiEnabled = Boolean(import.meta.env.VITE_API_URL);
   const supabaseEnabled = Boolean(
@@ -44,6 +46,24 @@ function App() {
       ? 'Listings are saved to the shared prototype database (Supabase).'
       : 'Listings are stored in this browser only. Add Supabase to share across users.';
 
+  const heroHeading = isBuyer
+    ? 'Match the right part to the right car, every time.'
+    : 'List inventory fast and reach verified buyers.';
+  const heroBody = isBuyer
+    ? 'Search by make, model, and year to find compatible parts and contact trusted sellers in minutes.'
+    : 'Upload photos, set pricing, and publish to a searchable catalog built for Ghana’s auto market.';
+  const highlights = isBuyer
+    ? [
+        { title: 'Precise matching', body: 'Filters narrow results by exact vehicle fit.' },
+        { title: 'Trusted sellers', body: 'Listings include phone + WhatsApp contact details.' },
+        { title: 'Fast comparison', body: 'See price, condition, and location at a glance.' }
+      ]
+    : [
+        { title: 'Quick listings', body: 'Capture details once and reuse for future uploads.' },
+        { title: 'Clear visibility', body: 'Photos and pricing show your stock instantly.' },
+        { title: 'Built to grow', body: 'Ready for payments and approvals when you are.' }
+      ];
+
   return (
     <div className="page">
       <header className="site-header">
@@ -55,40 +75,64 @@ function App() {
           </div>
         </div>
         <nav className="site-nav">
-          <a href="#buyers">Buyers</a>
-          <a href="#sellers">Sellers</a>
-          {apiEnabled ? <a href="#admin">Admin</a> : null}
-          <a href="#about">About</a>
+          <div className="view-toggle">
+            <button
+              className={`toggle ${activeView === 'buyer' ? 'active' : ''}`}
+              type="button"
+              onClick={() => setActiveView('buyer')}
+            >
+              Buyer
+            </button>
+            <button
+              className={`toggle ${activeView === 'seller' ? 'active' : ''}`}
+              type="button"
+              onClick={() => setActiveView('seller')}
+            >
+              Seller
+            </button>
+          </div>
         </nav>
-        <a className="primary-button" href="#sellers">List a part</a>
+        <button
+          className="primary-button"
+          type="button"
+          onClick={() => setActiveView('seller')}
+        >
+          List a part
+        </button>
       </header>
 
       <main>
         <section className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">Built for the Ghana automotive market</p>
-            <h1>Match the right part to the right car, every time.</h1>
-            <p>
-              A single hub for buyers to find compatible parts by make, model, and year —
-              and for sellers to showcase inventory with clear photos and contact details.
+            <p className="eyebrow">
+              {isBuyer ? 'For buyers' : 'For sellers'} · Built for Ghana
             </p>
+            <h1>{heroHeading}</h1>
+            <p>{heroBody}</p>
             <div className="hero-actions">
-              <a className="primary-button" href="#buyers">Find parts</a>
-              <a className="secondary-button" href="#sellers">Upload inventory</a>
+              {isBuyer ? (
+                <>
+                  <a className="primary-button" href="#buyers">Find parts</a>
+                  <button className="secondary-button" type="button" onClick={() => setActiveView('seller')}>
+                    Upload inventory
+                  </button>
+                </>
+              ) : (
+                <>
+                  <a className="primary-button" href="#sellers">List a part</a>
+                  <button className="secondary-button" type="button" onClick={() => setActiveView('buyer')}>
+                    Browse listings
+                  </button>
+                </>
+              )}
             </div>
             <div className="hero-highlights">
-              <div>
-                <div className="highlight-title">Simple compatibility</div>
-                <div className="highlight-body">Drop-down filters guide buyers to the exact match.</div>
-              </div>
-              <div>
-                <div className="highlight-title">Seller-friendly</div>
-                <div className="highlight-body">Quick uploads with images, pricing, and location.</div>
-              </div>
-              <div>
-                <div className="highlight-title">Ready to scale</div>
-                <div className="highlight-body">Built to plug into a future API, payments, and logistics.</div>
-              </div>
+              {highlights.map(item => (
+                <div key={item.title}>
+                  <div className="highlight-title">{item.title}</div>
+                  <div className="highlight-body">{item.body}</div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="hero-panel">
@@ -111,6 +155,7 @@ function App() {
           </div>
         </section>
 
+        {activeView === 'buyer' ? (
         <section id="buyers" className="section">
           <div className="section-header">
             <div>
@@ -126,7 +171,9 @@ function App() {
             paymentsEnabled={apiEnabled}
           />
         </section>
+        ) : null}
 
+        {activeView === 'seller' ? (
         <section id="sellers" className="section">
           <div className="section-header">
             <div>
@@ -146,8 +193,9 @@ function App() {
             {apiEnabled ? <SellerDashboard token={auth?.token} /> : null}
           </div>
         </section>
+        ) : null}
 
-        {apiEnabled ? (
+        {apiEnabled && activeView === 'seller' ? (
           <section id="admin" className="section">
             <div className="section-header">
               <div>
