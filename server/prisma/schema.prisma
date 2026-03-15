@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SELLER
+  ADMIN
+}
+
+enum ListingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+model Seller {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String
+  whatsapp     String?
+  passwordHash String
+  role         Role     @default(SELLER)
+  createdAt    DateTime @default(now())
+  listings     Part[]
+  orders       Order[]
+}
+
+model Car {
+  id       String  @id @default(cuid())
+  make     String
+  model    String
+  year     Int
+  parts    Part[]
+
+  @@unique([make, model, year])
+}
+
+model Part {
+  id          String         @id @default(cuid())
+  name        String
+  description String
+  category    String?
+  condition   String?
+  price       String
+  location    String?
+  images      String
+  status      ListingStatus  @default(PENDING)
+  createdAt   DateTime       @default(now())
+
+  sellerId    String
+  seller      Seller         @relation(fields: [sellerId], references: [id])
+
+  carId       String
+  car         Car            @relation(fields: [carId], references: [id])
+
+  orders      Order[]
+}
+
+model Order {
+  id           String         @id @default(cuid())
+  buyerName    String
+  buyerEmail   String
+  buyerPhone   String
+  amount       Float
+  currency     String         @default("GHS")
+  status       PaymentStatus  @default(PENDING)
+  txRef        String         @unique
+  paymentRef   String?
+  paymentLink  String?
+  createdAt    DateTime       @default(now())
+
+  partId       String
+  part         Part           @relation(fields: [partId], references: [id])
+
+  sellerId     String
+  seller       Seller         @relation(fields: [sellerId], references: [id])
+}

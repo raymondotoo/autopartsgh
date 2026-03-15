@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "Brake Pads",
+    "car": {"make": "Toyota", "model": "Corolla", "year": 2012},
+    "price": "120 GHS",
+    "seller": {"name": "Kwame Auto", "contact": "0244000000"},
+    "images": ["/assets/brakepads.jpg"],
+    "description": "High quality brake pads for Toyota Corolla 2012."
+  },
+  {
+    "id": "2",
+    "name": "Air Filter",
+    "car": {"make": "Nissan", "model": "Altima", "year": 2013},
+    "price": "80 GHS",
+    "seller": {"name": "Ama Parts", "contact": "0203000000"},
+    "images": ["/assets/airfilter.jpg"],
+    "description": "OEM air filter for Nissan Altima 2013."
+  }
+]

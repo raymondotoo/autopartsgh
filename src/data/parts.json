@@ -1,0 +1,50 @@
+[
+  {
+    "id": "seed-1",
+    "name": "Brake Pad Set",
+    "car": {"make": "Toyota", "model": "Corolla", "year": 2012},
+    "price": "120 GHS",
+    "category": "Brakes",
+    "condition": "New",
+    "location": "Accra",
+    "seller": {"name": "Kwame Auto", "phone": "0244000000", "whatsapp": "+233244000000"},
+    "images": ["/part-placeholder.svg"],
+    "description": "High-quality ceramic brake pads ready for quick installation."
+  },
+  {
+    "id": "seed-2",
+    "name": "Alternator",
+    "car": {"make": "Nissan", "model": "Altima", "year": 2013},
+    "price": "450 GHS",
+    "category": "Electrical",
+    "condition": "Used - Good",
+    "location": "Kumasi",
+    "seller": {"name": "Ama Parts", "phone": "0203000000", "whatsapp": "+233203000000"},
+    "images": ["/part-placeholder.svg"],
+    "description": "OEM alternator tested for stable output and charging."
+  },
+  {
+    "id": "seed-3",
+    "name": "Radiator",
+    "car": {"make": "Honda", "model": "Accord", "year": 2014},
+    "price": "380 GHS",
+    "category": "Cooling",
+    "condition": "Refurbished",
+    "location": "Tema",
+    "seller": {"name": "Gold Coast Motors", "phone": "0267000000", "whatsapp": "+233267000000"},
+    "images": ["/part-placeholder.svg"],
+    "description": "Refurbished radiator with new core and pressure test."
+  },
+  {
+    "id": "seed-4",
+    "name": "Front Shock Absorbers",
+    "car": {"make": "Hyundai", "model": "Tucson", "year": 2015},
+    "price": "520 GHS",
+    "category": "Suspension",
+    "condition": "New",
+    "location": "Takoradi",
+    "seller": {"name": "Sunrise Spares", "phone": "0278000000", "whatsapp": "+233278000000"},
+    "images": ["/part-placeholder.svg"],
+    "description": "Pair of front shocks with bushings included."
+  }
+]
