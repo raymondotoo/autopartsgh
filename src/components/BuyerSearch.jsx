@@ -150,8 +150,9 @@ function BuyerSearch({ cars, parts, onBuy, paymentsEnabled }) {
             </div>
           ) : (
             filteredParts.map(part => (
-                <div key={part.id} style={{ cursor: 'pointer' }} onClick={() => setSelectedPart(part)}>
-              <PartCard key={part.id} part={part} onBuy={onBuy} paymentsEnabled={paymentsEnabled} />
+              <div key={part.id} style={{ cursor: 'pointer' }} onClick={() => setSelectedPart(part)}>
+                <PartCard part={part} onBuy={onBuy} paymentsEnabled={paymentsEnabled} />
+              </div>
             ))
           )}
         </div>
